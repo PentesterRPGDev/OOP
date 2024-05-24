@@ -1,3 +1,5 @@
+import time
+
 class Monster:
     def __init__(self, name, hp, atk, dmg, exp):
         self.name = name
@@ -28,20 +30,20 @@ class Fight:
     def start_fight(self):
         while self.player.health > 0 and self.monster.health > 0:
             self.monster.health -= self.player.attack * self.player.damage
-            print(f"You attack the {self.monster.name} and deal {self.player.attack * self.player.damage} damage.")
-        if self.monster.health > 0:
-            print(f"{self.monster.name}'s turn:")
-            self.player.health -= self.monster.attack * self.monster.damage
-            print(f"The {self.monster.name} attacks you and deals {self.monster.attack * self.monster.damage} damage.")
-        if self.player.health <= 0:
-            print(f"You have been defeated by the {self.monster.name}.")
-        else:
-            print(f"You have defeated the {self.monster.name}!")
-            print(f"You gained {self.monster.exp} experience points.")
-            player.exp += monster.exp
+            print(f"\nyou attack the {self.monster.name} and deal {self.player.attack * self.player.damage} damage.\n")
+            time.sleep(1)
+            if self.monster.health > 0:
+                self.player.health -= self.monster.attack * self.monster.damage
+                print(f"The {self.monster.name} attacks you and deals {self.monster.attack * self.monster.damage} damage.")
+            if self.player.health <= 0:
+                print(f"You have been defeated by the {self.monster.name}.")
+            if self.monster.health <= 0:
+                print(f"You have defeated the {self.monster.name}!")
+                print(f"You gained {self.monster.exp} experience points.")
+                self.player.exp += self.monster.exp
+                return
 
-player = Player("Player", 1000, 10, 5)
-monster = Monster("Goblin", 550, 5, 5, 5)
+player = Player("player", 100, 10, 5)
+monster = Monster("goblin", 550, 5, 5, 5)
 fight = Fight(player, monster)
 fight.start_fight()
-print(f"{player.name} has {player.exp} xp")

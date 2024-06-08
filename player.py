@@ -1,12 +1,13 @@
 """
-Loads everything beloging to the player
+Load the player skills, status and features.
 """
 
 import random
 import time
+import os
 
 class Player:
-    """ creates a player class """
+    """ create a player class """
     def __init__(self, name):
         self.name = name
         self.atk_lvl = 1
@@ -21,23 +22,51 @@ class Player:
     @classmethod
     def damage(cls, player):
         """ calculates player's damage """
-        hit = player.atk_lvl * (random.randint(1, 100)) * player.str_lvl
-        slow_print(print(f"\n{player.name} deals {hit} damage."))
+        hit = player.atk_lvl * (random.randint(0, 100)) * player.str_lvl
+        print(f"\n{player.name} deals {hit} damage.")
         return hit
 
     @classmethod
-    def leveling(cls, player):
-        pass
+    def level_str(cls, player):
+        """ create lvl in str """
+        if player.xp <= 3:
+            player.str_lvl += 1
+
+class Monster:
+    """ create a monster class """
+    def __init__(self, name, atk_lvl, str_lvl, lp_lvl, def_lvl, xp):
+        self.name = name
+        self.atk_lvl = atk_lvl
+        self.str_lvl = str_lvl
+        self.lp_lvl = lp_lvl
+        self.def_lvl = def_lvl
+        self.xp = xp
+
+    def __str__(self):
+        return f"\n{self.name} has {self.lp_lvl} live points."
+
+    @classmethod
+    def damage(cls,monster):
+        """ calculate monster damage """
+        hit = monster.atk_lvl * (random.randint(0, 10)) * monster.str_lvl
+        print(f"\n{monster.name} deals {hit} damage.")
+        return hit
 
 adventurer = Player(input("\nWhat's your name, dear adventurer? \n\n"))
 print(adventurer)
-hitting = Player.damage(adventurer)
+goblin = Monster("goblin", 1, 1, 600, 1, 3)
+print(goblin)
 
-def slow_print(text, delay=0.05):
-    """ prints text slow, simulate reading """
-    for char in text:
-        print(char, end='', flush=True)
-        time.sleep(delay)
+class Fight(Player, Monster):
 
-# Display the question slowly
-slow_print("What's your name, dear adventurer?", delay=0.2)
+    def __str__(self):
+        return "Start the fight"
+
+    def fighting(self):
+        """ start the fight """
+        while adventurer.lp_lvl > 0 and goblin.lp_lvl > 0:
+            dmg = Player.damage
+            goblin.lp_lvl -= dmg
+            print(goblin.lp_lvl)
+
+fight = Fight()
